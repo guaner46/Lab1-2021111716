@@ -47,6 +47,13 @@ public class DrawGraph extends JPanel {
         for (Edge edge : edges) {
             int nodeIndex1 = edge.from.index;
             int nodeIndex2 = edge.to.index;
+
+            if (nodeIndex1 == nodeIndex2) {  // 自环
+                // 画一个圆
+                g2d.setColor(Color.BLUE);
+                g2d.drawOval(nodes.get(nodeIndex1).x - 15, nodes.get(nodeIndex1).y - 15, 40, 40);
+                continue;
+            }
             if (ifShowInShortest==0)  // 控制最短路径是否突出显示
                 g2d.setColor(Color.BLACK);
             else if(prev[nodeIndex2] == nodeIndex1)
@@ -78,7 +85,10 @@ public class DrawGraph extends JPanel {
         for (Edge edge : edges) {
             int midX = (edge.from.x + 2 * edge.to.x) / 3;  // 三分之一处标记权重
             int midY = (edge.from.y + 2 * edge.to.y) / 3;
-            g2d.drawString(String.valueOf(edge.weight), midX, midY);
+            if(edge.from.index == edge.to.index)
+                g2d.drawString(String.valueOf(edge.weight), midX+10, midY);
+            else
+                g2d.drawString(String.valueOf(edge.weight), midX, midY);
         }
     }
 
