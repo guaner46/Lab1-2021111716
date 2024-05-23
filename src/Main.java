@@ -8,10 +8,13 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         // 初始化
-        InputFileReader ifr = new InputFileReader("test.txt");
+        Scanner inScanner = new Scanner(System.in);
+        System.out.println("Please input the path of the file");
+        String fileName = inScanner.nextLine();
+        InputFileReader ifr = new InputFileReader(fileName);
         ArrayList<String> words = ifr.getFileContent();
         Graph g = new Graph(words);
-        Scanner inScanner = new Scanner(System.in);
+
 
         // 展示图
         g.showDirectedGraph();
