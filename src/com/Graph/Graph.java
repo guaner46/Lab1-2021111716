@@ -230,18 +230,22 @@ public class Graph {
         ArrayList<String> result = queryBridgeWordsSolver(word1, word2);
         if(!text2Idx.containsKey(word1) && !text2Idx.containsKey(word2)) {
             System.out.println("No \"" + word1 + "\" " + "and \"" + word2 + "\" in the graph!");
+            return;
         } else if(!text2Idx.containsKey(word1)) {
             System.out.println("No \"" + word1 + "\" in the graph!");
+            return;
         } else if(!text2Idx.containsKey(word2)) {
             System.out.println("No \"" + word2 + "\" in the graph!");
+            return;
         }
         if(!result.isEmpty()) {
-            System.out.println("The bridge words from \"" + word1 +"\" to \"" + word2 + "\" " +
+            System.out.println("The bridge words from \"" + word1 + "\" to \"" + word2 + "\" " +
                     (result.size() == 1 ? "is" : "are") +
                     printBridgeList(result)
             );
+            return;
+        }
         System.out.println("No bridge words from \"" + word1 + "\" to \"" + word2 + "\"!");
-    }
     }
 
     /**
@@ -266,7 +270,6 @@ public class Graph {
             }
             prevWord = words[idx];
         }
-        System.out.println(result);
         return result;
     }
 
