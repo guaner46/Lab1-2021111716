@@ -61,14 +61,6 @@ public class DrawGraph extends JPanel {
             endy = (int) (endy - 15 * Math.sin(angleInRadians));  // 箭头指向节点图像的边缘而不是圆心
             g2d.draw(new Line2D.Double(edge.from.x, edge.from.y, endx, endy)); // 画直线
             drawArrow(g2d, edge.from.x, edge.from.y, endx, endy);  // 画箭头
-
-            g2d.setColor(Color.RED);
-
-            int midX = (edge.from.x + 2 * edge.to.x) / 3;  // 三分之一处标记权重
-            int midY = (edge.from.y + 2 * edge.to.y) / 3;
-            g2d.setFont(new Font("Arial", Font.PLAIN, 25));
-            g2d.drawString(String.valueOf(edge.weight), midX, midY);
-            g2d.setFont(new Font("Arial", Font.PLAIN, 15));
         }
 
         // Draw nodes
@@ -78,6 +70,15 @@ public class DrawGraph extends JPanel {
             g2d.setColor(Color.BLACK);
             g2d.drawString("N" + node.index, node.x - 5, node.y + 5);  // 添加节点标号
             g2d.drawString("N" + node.index + ": " + node.name, 10, (1+node.index) * 18);  // 添加标号到节点名称映射
+        }
+
+        // Draw weights
+        g2d.setColor(Color.GREEN);
+        g2d.setFont(new Font("Arial", Font.PLAIN, 25));
+        for (Edge edge : edges) {
+            int midX = (edge.from.x + 2 * edge.to.x) / 3;  // 三分之一处标记权重
+            int midY = (edge.from.y + 2 * edge.to.y) / 3;
+            g2d.drawString(String.valueOf(edge.weight), midX, midY);
         }
     }
 

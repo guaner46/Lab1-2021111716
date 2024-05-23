@@ -309,11 +309,27 @@ public class Graph {
      *  @param prev: 可能的最短路径，用于突出最短路径
      */
     public void showDirectedGraph(String savename, int frame_w, int frame_h, Double radius, double centerX, double centerY, int[] prev) {
+        int numPoints = textMap.size();    // 点的数量
+
+        double scale = numPoints * 1.0 / 10;
+        if (scale < 1){
+            scale = 1;
+        }
+        else {
+            int temp_frame_h = frame_h;
+            frame_w = (int) (frame_w * scale);
+            frame_h = (int) (frame_h * scale);
+            if (frame_w > 2000) {
+                frame_w = 2000;
+                frame_h = 1000;
+            }
+            centerX = (double) frame_w / 2;
+            centerY = (double) frame_h / 2;
+            radius = frame_h - centerY - 70;
+        }
         JFrame frame = new JFrame(savename);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(frame_w, frame_h);
-
-        int numPoints = textMap.size();    // 点的数量
 
         List<Point2D> points = DrawGraph.layoutPointsOnCircle(radius, numPoints, centerX, centerY);
 
