@@ -13,6 +13,9 @@ public class Main {
         String fileName = inScanner.nextLine();
         InputFileReader ifr = new InputFileReader(fileName);
         ArrayList<String> words = ifr.getFileContent();
+        if(words == null) {
+            return;
+        }
         Graph g = new Graph(words);
 
 

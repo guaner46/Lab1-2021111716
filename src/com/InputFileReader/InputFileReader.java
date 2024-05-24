@@ -19,7 +19,8 @@ public class InputFileReader {
 
     // 工具方法 /////////////////////////////////
     private ArrayList<String> tokenizeString(String input) {
-        String processedLine = input.replaceAll("[^A-Za-z]", " ");
+        String processedLine = input.replaceAll("[,?.;!]", " ");
+        processedLine = processedLine.replaceAll("[^a-zA-Z\\s]", "");
         String[] words = processedLine.split("\\s+");
         ArrayList<String> result = new ArrayList<>();
         for(String word : words){

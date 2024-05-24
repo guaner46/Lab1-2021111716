@@ -275,10 +275,10 @@ public class Graph {
 
     public void showDirectedGraph(String savename){
         int[] prev = null;
-        showDirectedGraph(savename, 1000,1000,250.0,500,500,  prev);
+        showDirectedGraph(savename, 800,800,200.0,400,400,  prev);
     }
     public void showDirectedGraph(String savename, int[] prev){
-        showDirectedGraph(savename, 1000,1000,250.0,500,500,  prev);
+        showDirectedGraph(savename, 800,800,200.0,400,400,  prev);
     }
     public void showDirectedGraph(){
         // 获取当前时间
@@ -295,7 +295,7 @@ public class Graph {
 
         int[] prev = null;
 
-        showDirectedGraph(fileName,1000,1000,250.0,500,500, prev);
+        showDirectedGraph(fileName,800,800,200.0,400,400, prev);
     }
     /**
      *  绘制图的API
@@ -319,9 +319,9 @@ public class Graph {
             int temp_frame_h = frame_h;
             frame_w = (int) (frame_w * scale);
             frame_h = (int) (frame_h * scale);
-            if (frame_w > 2000) {
-                frame_w = 2000;
-                frame_h = 1000;
+            if (frame_w > 1800) {
+                frame_w = 1800;
+                frame_h = 900;
             }
             centerX = (double) frame_w / 2;
             centerY = (double) frame_h / 2;
@@ -453,6 +453,10 @@ public class Graph {
      */
     public String randomWalk(){
         System.out.println("Start random walk");
+        if(textMap.isEmpty()){
+            System.out.println("No nodes in the graph");
+            return "";
+        }
         System.out.println("input 'c' to continue; input 'b' to break; input 'a' to auto.");
         Random random = new Random();
         Scanner scanner = new Scanner(System.in);
