@@ -1,0 +1,1 @@
+In a similar fashion, Arch Linux ships the configuration files provided by upstream with changes limited to distribution-specific issues like adjusting the system file paths. It does not add automation features. features features features features features features features features features features features features t@ypes. Features ! &&^*&^*&^&*^ harbin is good.

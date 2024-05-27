@@ -377,13 +377,17 @@ public class Graph {
                     Arrays.fill(prev2, -1);
 
                     String result = "";
-                    // 从终点开始，逆向追溯到起点，构建最短路径字符串
+                    int weight = 0;
+                    // 从终点开始，逆向追溯到起点，构建最短路径字符串，并计算权重的和
                     while(curr != -1) {
+                        if (prev[curr] != -1){
+                            weight += textMap.get(prev[curr]).get(curr);
+                        }
                         prev2[curr] = prev[curr];
                         result = getTag(curr) + " " + result;
                         curr = prev[curr];
                     }
-
+                    result = result + " Weight: " + weight;
                     // 显示有向图，使用新的前驱数组
                     showDirectedGraph(word1 + "_" + getTag(i) + "_output.png", prev2);
                     re_text = re_text + result + "\n";
@@ -433,8 +437,12 @@ public class Graph {
         Arrays.fill(prev2, -1);
 
         String result = "";
-        // 从终点开始，逆向追溯到起点，构建最短路径字符串
+        int weight = 0;
+        // 从终点开始，逆向追溯到起点，构建最短路径字符串，并计算权重的和
         while(curr != -1) {
+            if (prev[curr] != -1){
+                weight += textMap.get(prev[curr]).get(curr);
+            }
             prev2[curr] = prev[curr];
             result = getTag(curr) + " " + result;
             curr = prev[curr];
@@ -444,7 +452,7 @@ public class Graph {
         showDirectedGraph(word1 + "_" + word2 + "_output.png", prev2);
 
         // 返回最短路径字符串
-        return result;
+        return result + " Weight: " + weight;
     }
 
     /**
