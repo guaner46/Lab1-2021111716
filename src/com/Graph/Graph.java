@@ -651,9 +651,12 @@ public class Graph {
 		Container content=jf.getContentPane();
 		//创建缓冲图片对象
 		BufferedImage img=new BufferedImage(
-				jf.getWidth(),jf.getHeight(),BufferedImage.TYPE_INT_RGB);
+                content.getWidth(),content.getHeight(),BufferedImage.TYPE_INT_RGB);
 		//得到图形对象
 		Graphics2D g2d = img.createGraphics();
+        // 设置背景颜色为白色
+        g2d.setColor(Color.WHITE);
+        g2d.fillRect(0, 0, jf.getWidth(), jf.getHeight());
 		//将窗口内容面板输出到图形对象中
 		content.printAll(g2d);
 		//保存为图片
