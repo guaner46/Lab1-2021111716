@@ -3,29 +3,34 @@ package com.InputFileReader;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Objects;
 
 public class InputFileReader {
-    // 成员   ///////////////////////////////////
-    String filePath = "";
+    /**
+     * 该类用于读取文件内容
+     * 1. 读取文件内容
+     * 2. 将文件内容转换为单词列表
+     * 3. 返回单词列表
+     */
+    private String filePath = "";
 
-    // 构造器 ///////////////////////////////////
-    public InputFileReader(String inputFilePath) {
+    /** 构造函数.
+     * @param inputFilePath 文件路径
+     */
+    public InputFileReader(final String inputFilePath) {
         filePath = inputFilePath;
     }
 
     // 工具方法 /////////////////////////////////
-    private ArrayList<String> tokenizeString(String input) {
+    private ArrayList<String> tokenizeString(final String input) {
         String processedLine = input.replaceAll("[,?.;!]", " ");
         processedLine = processedLine.replaceAll("[^a-zA-Z\\s]", "");
         String[] words = processedLine.split("\\s+");
         ArrayList<String> result = new ArrayList<>();
-        for(String word : words){
+        for (String word : words) {
             String t = word.replace(" ", "");
-            if(Objects.equals(t, "")) {
+            if (Objects.equals(t, "")) {
                 continue;
             } else {
                 result.add(word.replace(" ", ""));
@@ -35,13 +40,16 @@ public class InputFileReader {
         return result;
     }
 
-    // 对外API /////////////////////////////////
+    /** 读取文件内容.
+     * @return 文件内容
+     */
     public ArrayList<String> getFileContent() {
         ArrayList<String> result = new ArrayList<>();
         try {
-            BufferedReader inStream = new BufferedReader(new FileReader(filePath));
+            BufferedReader inStream = new BufferedReader(
+                    new FileReader(filePath));
             String line;
-            while((line = inStream.readLine()) != null) {
+            while ((line = inStream.readLine()) != null) {
                 result.addAll(tokenizeString(line.toLowerCase()));
             }
         } catch (IOException e) {

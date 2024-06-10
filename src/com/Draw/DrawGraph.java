@@ -1,46 +1,75 @@
 package com.Draw;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DrawGraph extends JPanel {
+    /** 节点.
+     */
     private List<Node> nodes;
+    /** 边.
+     */
     private List<Edge> edges;
+    /** 用于记录最短路径.
+     */
     private int[] prev;
+    /** 用于标记画图时是否显示最短路径.
+     */
     private int ifShowInShortest = 0;
-
+    /** 构造器.
+     */
     public DrawGraph() {
         nodes = new ArrayList<>();
         edges = new ArrayList<>();
     }
-
-    public void addNode(String name, int index, List<Point2D> points) {
+    /** 添加节点.
+     * @param name 节点名称
+     * @param index 节点索引
+     * @param points 节点坐标
+     */
+    public void addNode(
+            final String name, final int index, final List<Point2D> points) {
         if (index < nodes.size()) {
             throw new IllegalArgumentException("Node index must be unique");
         }
         nodes.add(new Node(name, index, points));  // 名字、索引、图中坐标
     }
-
-    public void addEdge(int from_index, int to_index, int weight) {
-        Node from = nodes.get(from_index);
-        Node to = nodes.get(to_index);
+    /** 添加边.
+     * @param fromIndex 起始节点索引
+     * @param toIndex 终止节点索引
+     * @param weight 权重
+     */
+    public void addEdge(
+            final int fromIndex, final int toIndex, final int weight) {
+        Node from = nodes.get(fromIndex);
+        Node to = nodes.get(toIndex);
         edges.add(new Edge(from, to, weight));  // 起始节点、终止节点、权重
     }
-
-    public void setPrev(int[] prev) {
-        this.prev = prev;
-        ifShowInShortest=1;  // 用于标记是否显示最短路径
+    /** 设置最短路径.
+     * @param prevpath 最短路径
+     */
+    public void setPrev(final int[] prevpath) {
+        this.prev = prevpath;
+        ifShowInShortest = 1;  // 用于标记是否显示最短路径
     }
-
+    /** 画图.
+     * @param g 画笔
+     */
     @Override
-    protected void paintComponent(Graphics g) {
+    protected void paintComponent(final Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint(
+                RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setFont(new Font("Arial", Font.PLAIN, 15));
 
         // Draw edges
@@ -51,22 +80,26 @@ public class DrawGraph extends JPanel {
             if (nodeIndex1 == nodeIndex2) {  // 自环
                 // 画一个圆
                 g2d.setColor(Color.BLUE);
-                g2d.drawOval(nodes.get(nodeIndex1).x - 12, nodes.get(nodeIndex1).y - 12, 30, 30);
+                g2d.drawOval(nodes.get(nodeIndex1).x - 12,
+                        nodes.get(nodeIndex1).y - 12, 30, 30);
                 continue;
             }
-            if (ifShowInShortest==0)  // 控制最短路径是否突出显示
+            if (ifShowInShortest == 0) {  // 控制最短路径是否突出显示
                 g2d.setColor(Color.BLACK);
-            else if(prev[nodeIndex2] == nodeIndex1)
+            } else if (prev[nodeIndex2] == nodeIndex1) {
                 g2d.setColor(Color.BLUE);
-            else
+            } else {
                 g2d.setColor(Color.BLACK);
-
+            }
             int endx = edge.to.x;
             int endy = edge.to.y;
-            double angleInRadians = Math.atan2(endy - edge.from.y, endx - edge.from.x);
+            double angleInRadians = Math.atan2(
+                    endy - edge.from.y, endx - edge.from.x);
             endx = (int) (endx - 12 * Math.cos(angleInRadians));
-            endy = (int) (endy - 12 * Math.sin(angleInRadians));  // 箭头指向节点图像的边缘而不是圆心
-            g2d.draw(new Line2D.Double(edge.from.x, edge.from.y, endx, endy)); // 画直线
+            endy = (int) (
+                    endy - 12 * Math.sin(angleInRadians));  // 箭头指向节点图像的边缘而不是圆心
+            g2d.draw(new Line2D.Double(
+                    edge.from.x, edge.from.y, endx, endy)); // 画直线
             drawArrow(g2d, edge.from.x, edge.from.y, endx, endy);  // 画箭头
         }
 
@@ -76,7 +109,8 @@ public class DrawGraph extends JPanel {
             g2d.fillOval(node.x - 12, node.y - 12, 24, 24);  // 画圆，代表节点
             g2d.setColor(Color.BLACK);
             g2d.drawString("N" + node.index, node.x - 5, node.y + 5);  // 添加节点标号
-            g2d.drawString("N" + node.index + ": " + node.name, 10, (1+node.index) * 18);  // 添加标号到节点名称映射
+            g2d.drawString("N" + node.index + ": " + node.name, 10,
+                    (1 + node.index) * 18);  // 添加标号到节点名称映射
         }
 
         // Draw weights
@@ -85,19 +119,21 @@ public class DrawGraph extends JPanel {
         for (Edge edge : edges) {
             int midX = (edge.from.x + 2 * edge.to.x) / 3;  // 三分之一处标记权重
             int midY = (edge.from.y + 2 * edge.to.y) / 3;
-            if(edge.from.index == edge.to.index) {
+            if (edge.from.index == edge.to.index) {
                 g2d.setColor(Color.ORANGE);
                 g2d.drawString(String.valueOf(edge.weight), midX + 10, midY);
                 g2d.setColor(Color.GREEN);
-            }
-            else
+            } else {
                 g2d.drawString(String.valueOf(edge.weight), midX, midY);
+            }
         }
     }
 
-    private void drawArrow(Graphics2D g2d, int x1, int y1, int x2, int y2) {
+    private void drawArrow(final Graphics2D g2d, final int x1,
+                           final int y1, final int x2, final int y2) {
         // 计算两个点的x和y坐标之差
-        double dx = x2 - x1, dy = y2 - y1;
+        double dx = x2 - x1;
+        double dy = y2 - y1;
         // 计算线段与x轴之间的角度，单位是弧度
         double angle = Math.atan2(dy, dx);
         // 设置箭头的长度
@@ -120,9 +156,16 @@ public class DrawGraph extends JPanel {
         // 使用当前颜色填充由这三个点定义的多边形的内部区域
         g2d.fillPolygon(xPoints, yPoints, 3);
     }
-
-    // 用于防止图中边重叠，将节点坐标分布在一个圆上
-    public static List<Point2D> layoutPointsOnCircle(double radius, int numPoints, double centerX, double centerY) {
+    /** 将节点坐标分布在一个圆上.
+     * @param radius 半径
+     * @param numPoints 节点数
+     * @param centerX 圆心x坐标
+     * @param centerY 圆心y坐标
+     * @return 节点坐标
+     */
+    public static List<Point2D> layoutPointsOnCircle(
+            final double radius, final int numPoints,
+            final double centerX, final double centerY) {
         List<Point2D> points = new ArrayList<>();
         double angleIncrement = (2 * Math.PI) / numPoints;
 
@@ -139,25 +182,42 @@ public class DrawGraph extends JPanel {
 
 
     static class Node {
-        String name;
-        int x, y, index;
+        /** 节点名称.
+         */
+        private String name;
+        /** 节点x坐标.
+         */
+        private int x;
+        /** 节点y坐标.
+         */
+        private int y;
+        /** 节点索引.
+         */
+        private int index;
 
-        public Node(String name, int index, List<Point2D> circle) {
-            this.name = name;
-            this.x = (int) circle.get(index).getX();
-            this.y = (int) circle.get(index).getY();
-            this.index = index;
+        Node(final String nAME, final int i, final List<Point2D> circle) {
+            this.name = nAME;
+            this.x = (int) circle.get(i).getX();
+            this.y = (int) circle.get(i).getY();
+            this.index = i;
         }
     }
 
     static class Edge {
-        Node from, to;
-        int weight;
+        /** 起始节点.
+         */
+        private Node from;
+        /** 终止节点.
+         */
+        private Node to;
+        /** 权重.
+         */
+        private int weight;
 
-        public Edge(Node from, Node to, int weight) {
-            this.from = from;
-            this.to = to;
-            this.weight = weight;
+        Edge(final Node froM, final Node tO, final int weighT) {
+            this.from = froM;
+            this.to = tO;
+            this.weight = weighT;
         }
     }
 }
