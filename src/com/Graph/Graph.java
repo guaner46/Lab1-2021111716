@@ -201,7 +201,7 @@ public class Graph {
      * @param tgtWord 目标词
      * @return 桥接词表
      */
-    private ArrayList<String> queryBridgeWordsSolver(
+    public ArrayList<String> queryBridgeWordsSolver(
             final String srcWord, final String tgtWord) {
         ArrayList<String> result = new ArrayList<>();
         if (!text2Idx.containsKey(srcWord) && !text2Idx.containsKey(tgtWord)) {
